@@ -1,0 +1,97 @@
+<html>
+
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.css" rel="stylesheet"
+        type="text/css" />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+        type="text/css" />
+</head>
+
+<body ng-app="app">
+
+    <script type="text/ng-template" id="eventmodal.html">
+        <div class="modal-header">
+                <h3 class="modal-title" id="modal-title">{{vm.title}}</h3>
+                <small>From: {{vm.summary.From}}</small>
+                <br/>
+                <small>Subject: {{vm.summary.Subject}}</small>
+            </div>
+            <div class="modal-body" id="modal-body" style="max-height:300px;overflow:auto;">
+                <ul>
+                    <li ng-repeat="evento in vm.eventos">
+                        <p>Tipo: {{evento.Event}}</p>
+                        <p>Fecha: {{evento.Date}}</p>
+                        <p>From: {{evento.From}}</p>
+                        <p>To: {{evento.To}}</p>
+                        <p>Asunto: {{evento.Subject}}</p>
+                        <div>
+                            <button class="btn btn-default" ng-click="vm.displayEml(evento)">Ver EML</button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">            
+                <button class="btn btn-warning" type="button" ng-click="vm.close()">Cerrar</button>
+            </div>
+    </script>
+    <script type="text/ng-template" id="eventemlmodal.html">
+        <div class="modal-header">
+                <h3 class="modal-title" id="modal-title">{{vm.title}}</h3>                
+            </div>
+            <div class="modal-body" id="modal-body" style="max-height:300px;overflow:auto;">
+                <p>Fecha: {{vm.model.Date}}</p>
+                <p>From: {{vm.model.From}}</p>
+                <p>To: {{vm.model.To}}</p>
+                <p>Asunto: {{vm.model.Subject}}</p>
+                <ul>
+                    <li ng-repeat="attachment in vm.model.Attachments">
+                        <a ng-href="{{attachment.DownloadUrl}}">{{attachment.FileName}}</a>
+                    </li>
+                </ul>
+                <div>
+                    {{vm.model.Body}}
+                </div>
+            </div>
+            <div class="modal-footer">            
+                <button class="btn btn-warning" type="button" ng-click="vm.close()">Cerrar</button>
+            </div>
+    </script>
+
+    <div ng-controller="mainController">
+        <table border="1">
+            <tr>
+                <th>Date</th>
+                <th>Event</th>
+                <th>From</th>
+                <th>Nit</th>
+                <th>Opciones</th>
+            </tr>
+            <tr ng-repeat="item in data.records">
+                <td>{{item.Date}}</td>
+                <td>{{item.Event}}</td>
+                <td>{{item.From}}</td>
+                <td>{{item.Nit}}</td>
+                <td>
+                    <button ng-click="displayEvents(item)">Mostrar eventos</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div>
+        {{text}}
+    </div>
+
+</body>
+
+<script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.2/angular.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.js"></script>
+<script src="app.js"></script>
+<script src="controllers/mainController.js"></script>
+<script src="services/mainService.js"></script>
+<script src="providers/EmlViewer.js"></script>
+
+</html>
